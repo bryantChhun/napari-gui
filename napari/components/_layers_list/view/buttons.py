@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+from qtpy.QtCore import Qt
+from qtpy.QtGui import QIcon
+from qtpy.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QFrame, QCheckBox)
 
 from .... import resources
@@ -18,6 +18,7 @@ class QtLayersButtons(QFrame):
 
         layout = QHBoxLayout()
         layout.addStretch(0)
+        layout.setContentsMargins(0, 18, 34, 4)
         layout.addWidget(self.newMarkersButton)
         layout.addWidget(self.newShapesButton)
         layout.addWidget(self.newLabelsButton)
@@ -30,12 +31,11 @@ class QtDeleteButton(QPushButton):
         super().__init__()
 
         self.layers = layers
-        self.setIcon(QIcon(':/icons/delete.png'))
         self.setFixedWidth(28)
         self.setFixedHeight(28)
         self.setToolTip('Delete layers')
         self.setAcceptDrops(True)
-        self.clicked.connect(self.layers.remove_selected)
+        self.clicked.connect(lambda: self.layers.remove_selected())
 
     def dragEnterEvent(self, event):
         event.accept()
@@ -57,11 +57,10 @@ class QtNewMarkersButton(QPushButton):
         super().__init__()
 
         self.layers = layers
-        self.setIcon(QIcon(':icons/new_markers.png'))
         self.setFixedWidth(28)
         self.setFixedHeight(28)
         self.setToolTip('New markers layer')
-        self.clicked.connect(self.layers.viewer._new_markers)
+        self.clicked.connect(lambda: self.layers.viewer._new_markers())
 
 
 class QtNewShapesButton(QPushButton):
@@ -69,11 +68,10 @@ class QtNewShapesButton(QPushButton):
         super().__init__()
 
         self.layers = layers
-        self.setIcon(QIcon(':icons/new_shapes.png'))
         self.setFixedWidth(28)
         self.setFixedHeight(28)
         self.setToolTip('New shapes layer')
-        self.clicked.connect(self.layers.viewer._new_shapes)
+        self.clicked.connect(lambda: self.layers.viewer._new_shapes())
 
 
 class QtNewLabelsButton(QPushButton):
@@ -81,8 +79,7 @@ class QtNewLabelsButton(QPushButton):
         super().__init__()
 
         self.layers = layers
-        self.setIcon(QIcon(':icons/new_labels.png'))
         self.setFixedWidth(28)
         self.setFixedHeight(28)
         self.setToolTip('New labels layer')
-        self.clicked.connect(self.layers.viewer._new_labels)
+        self.clicked.connect(lambda: self.layers.viewer._new_labels())
